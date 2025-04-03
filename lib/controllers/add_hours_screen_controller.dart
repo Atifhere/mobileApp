@@ -9,7 +9,17 @@ class AddHoursScreenController extends GetxController{
   ApiServices services=ApiServices();
   RxString amountEarnedToday="0".obs;
   RxString amountEarnedMonth="0".obs;
+
+  RxString myShareThisMonth="0".obs;
+  RxString myPercentageValue="0".obs;
+  RxString monthlyTarget="0".obs;
+  RxString companyName="".obs;
   RxString name="".obs;
+
+  // "myShareThisMonth": 20,
+  // "myPercentageValue": 50,
+  // "monthlyTarget": 4000,
+  // "companyName": "Abu Dhabi Salon"
 
 
   Future<void> loadService() async {
@@ -20,6 +30,14 @@ class AddHoursScreenController extends GetxController{
         final Map<String, dynamic> data = response.data as Map<String, dynamic>;
         amountEarnedToday.value = (data['amountEarnedToday'] ?? '0').toString();
         amountEarnedMonth.value = (data['amountEarnedMonth'] ?? '0').toString();
+
+        myShareThisMonth.value = (data['myShareThisMonth'] ?? '0').toString();
+        myPercentageValue.value = (data['myPercentageValue'] ?? '0').toString();
+        monthlyTarget.value = (data['monthlyTarget'] ?? '0').toString();
+        companyName.value = (data['companyName'] ?? '').toString();
+        if(companyName.value.length > 25){
+          companyName.value = "${companyName.value.substring(0,24)}...";
+        }
       }
 
     } catch (e) {

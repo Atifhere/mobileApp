@@ -82,6 +82,7 @@ class _MenSaloonPageState extends State<MenSaloonPage> {
                               ),
                             ],
                           ),
+                          Spacer(),
                           SizedBox(
                             width: 130.w,
                             child: Obx(() => TextField(
@@ -111,6 +112,11 @@ class _MenSaloonPageState extends State<MenSaloonPage> {
                               },
                             )),
                           ),
+                          Icon(
+                            Icons.delete_outline,
+                            color: AppColors.appOrange,
+                            size: 25,
+                          )
                         ],
                       ),
                     );

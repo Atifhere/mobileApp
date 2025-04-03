@@ -21,10 +21,7 @@ class AddHoursScreen extends StatefulWidget {
 }
 
 class _AddHoursScreenState extends State<AddHoursScreen> {
-
-
-  AddHoursScreenController controller=Get.put(AddHoursScreenController());
-
+  AddHoursScreenController controller = Get.put(AddHoursScreenController());
 
   @override
   void initState() {
@@ -52,27 +49,41 @@ class _AddHoursScreenState extends State<AddHoursScreen> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Obx(() => Text("Welcome ${controller.name.value}",style: GoogleFonts.poppins(color: Colors.white,
-                          fontWeight: FontWeight.bold),),),
+                      Obx(
+                        () => Text(
+                          "Welcome ${controller.name.value}",
+                          style: GoogleFonts.poppins(
+                              color: Colors.white, fontWeight: FontWeight.bold),
+                        ),
+                      ),
                       Row(
                         children: [
                           GestureDetector(
-                              onTap: () async{
-                                final SharedPreferences prefs = await SharedPreferences.getInstance();
+                              onTap: () async {
+                                final SharedPreferences prefs =
+                                    await SharedPreferences.getInstance();
                                 prefs.remove("token");
                                 prefs.remove("name");
-                                Get.offAll(()=>const LoginScreen());
+                                Get.offAll(() => const LoginScreen());
                               },
-                              child: const Icon(Icons.logout,color: Colors.red,)
+                              child: const Icon(
+                                Icons.logout,
+                                color: Colors.red,
+                              )),
+                          SizedBox(
+                            width: 5.w,
                           ),
-                          SizedBox(width: 5.w,),
-                          Text("Logout",style: GoogleFonts.poppins(color: Colors.white),)
+                          Text(
+                            "Logout",
+                            style: GoogleFonts.poppins(color: Colors.white),
+                          )
                         ],
                       )
                     ],
-                  )
+                  )),
+              const SizedBox(
+                height: 10,
               ),
-              const SizedBox(height: 10,),
               myServices(context),
               SizedBox(
                 height: 20.h,
@@ -84,8 +95,6 @@ class _AddHoursScreenState extends State<AddHoursScreen> {
       ),
     );
   }
-
-
 
   Widget myServices(BuildContext context) {
     return Container(
@@ -102,113 +111,73 @@ class _AddHoursScreenState extends State<AddHoursScreen> {
             width: MediaQuery.sizeOf(context).width,
             decoration: BoxDecoration(
               borderRadius: const BorderRadius.only(
-                  topRight: Radius.circular(5), topLeft: Radius.circular(5)),
-              color:AppColors.appOrange ,
+                topRight: Radius.circular(5),
+                topLeft: Radius.circular(5),
+              ),
+              color: AppColors.appOrange, // Dark orange background for better contrast
             ),
             padding: REdgeInsets.symmetric(vertical: 5.h),
             child: Center(
-                child: Text(
-                  'My Service',
-                  style: GoogleFonts.inter(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    decoration: TextDecoration.underline,
-                    decorationColor: Colors.white,
-                  ),
-                )),
+              child: Text(
+                'My Details',
+                style: GoogleFonts.inter(
+                  color: Colors.white, // Light text for readability
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  decoration: TextDecoration.underline, // Optional for a stylish look
+                  decorationColor: Colors.white,
+                ),
+              ),
+            ),
           ),
           SizedBox(
-            height: 10.h,
+            height: 7.h,
           ),
-          Padding(
-            padding: REdgeInsets.only(left: 10.w, bottom: 10.h, right: 10.w),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Expanded(
-                  child: Card(
-                    elevation: 3,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(2)),
-                    color: Colors.white,
-                    child: Padding(
-                      padding:
-                      REdgeInsets.only(left: 8.w, top: 8.h, bottom: 8.h,right: 8.w),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'TODAY',
-                                style: GoogleFonts.inter(
-                                    color: AppColors.appOrange,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              SizedBox(
-                                height: 4.h,
-                              ),
-                              Obx(() => Text(
-                                '${controller.amountEarnedToday} AED',
-                                style: GoogleFonts.inter(
-                                    color: Colors.black,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w600),
-                              ),)
-                            ],
-                          ),
-                          Icon(Icons.cases_rounded,color: AppColors.appOrange,size: 30,),
 
-                        ],
+
+          Padding(
+            // padding: const EdgeInsets.all(7.0),
+            padding: REdgeInsets.only(left: 7.w, top: 2.h, bottom: 2.h, right: 7.w),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                // Key section (40%)
+                Flexible(
+                  flex: 4, // 40% of the row width
+                  child: Container(
+                    width: double.infinity,
+                    color: AppColors.appOrange.withOpacity(0.2), // Color for the key background
+                    padding: const EdgeInsets.all(8),
+
+                    child: Text(
+                      'Company Name:',
+                      style: GoogleFonts.inter(
+                        color: AppColors.appOrange,
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),
                 ),
-                SizedBox(
-                  width: 10.w,
-                ),
-                Expanded(
-                  child: Card(
-                    elevation: 3,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(2)),
-                    color: Colors.white,
-                    child: Padding(
-                      padding:
-                      REdgeInsets.only(left: 8.w, top: 8.h, bottom: 8.h,right: 8.w),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'THIS MONTH',
-                                style: GoogleFonts.inter(
-                                    color: AppColors.appOrange,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              SizedBox(
-                                height: 4.h,
-                              ),
-                              Obx(() => Text(
-                                '${controller.amountEarnedMonth} AED',
-                                style: GoogleFonts.inter(
-                                    color: Colors.black,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w600),
-                              ),)
-                            ],
-                          ),
-                          Icon(Icons.cases_rounded,color: AppColors.appOrange,size: 30,),
+                //SizedBox(width: 4.w),
+                // Value section (60%)
+                Flexible(
+                  flex: 6, // 60% of the row width
+                  child: Container(
+                    width: double.infinity,
+                    color: Colors.blue.withOpacity(0.2), // Color for the value background
+                    padding: const EdgeInsets.all(8),
+                   // padding: REdgeInsets.only(left: 2.w, top: 8.h, bottom: 8.h, right: 8.w),
 
-                        ],
+                    child: Obx(
+                          () => Text(
+                        '${controller.companyName}',
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.inter(
+                          color: Colors.blue,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                     ),
                   ),
@@ -216,6 +185,166 @@ class _AddHoursScreenState extends State<AddHoursScreen> {
               ],
             ),
           ),
+
+
+
+
+          Padding(
+            // padding: const EdgeInsets.all(7.0),
+            padding: REdgeInsets.only(
+                left: 7.w, top: 2.h, bottom: 2.h, right: 7.w),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                // Key section (40%)
+                Flexible(
+                  flex: 4, // 40% of the row width
+                  child: Container(
+                    width: double.infinity,
+                    color: AppColors.appOrange.withOpacity(0.2), // Color for the key background
+                    padding: const EdgeInsets.all(8),
+                    child: Text(
+                      'This Month Earning:',
+                      style: GoogleFonts.inter(
+                        color: AppColors.appOrange,
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+                //SizedBox(width: 4.w),
+                // Value section (60%)
+                Flexible(
+                  flex: 6, // 60% of the row width
+                  child: Container(
+                    width: double.infinity,
+                    color: Colors.blue.withOpacity(0.2), // Color for the value background
+                    padding: const EdgeInsets.all(8),
+                    child: Obx(
+                          () => Text(
+                        '${controller.myShareThisMonth} AED',
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.inter(
+                          color: Colors.blue,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+          Padding(
+           // padding: const EdgeInsets.all(7.0),
+            padding: REdgeInsets.only(
+                left: 7.w, top: 2.h, bottom: 2.h, right: 7.w),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                // Key section (40%)
+                Flexible(
+                  flex: 4, // 40% of the row width
+                  child: Container(
+                    width: double.infinity,
+                    color: AppColors.appOrange.withOpacity(0.2), // Color for the key background
+                    padding: const EdgeInsets.all(8),
+                    child: Text(
+                      'My Share:',
+                      style: GoogleFonts.inter(
+                        color: AppColors.appOrange,
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+                //SizedBox(width: 4.w),
+                // Value section (60%)
+                Flexible(
+                  flex: 6, // 60% of the row width
+                  child: Container(
+                    width: double.infinity,
+                    color: Colors.blue.withOpacity(0.2), // Color for the value background
+                    padding: const EdgeInsets.all(8),
+                    child: Obx(
+                          () => Text(
+                        '${controller.myPercentageValue}%',
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.inter(
+                          color: Colors.blue,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+
+
+
+
+          Padding(
+            // padding: const EdgeInsets.all(7.0),
+            padding: REdgeInsets.only(
+                left: 7.w, top: 2.h, bottom: 7.h, right: 7.w),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                // Key section (40%)
+                Flexible(
+                  flex: 4, // 40% of the row width
+                  child: Container(
+                    width: double.infinity,
+                    color: AppColors.appOrange.withOpacity(0.2), // Color for the key background
+                    padding: const EdgeInsets.all(8),
+                    child: Text(
+                      'Monthly Target:',
+                      style: GoogleFonts.inter(
+                        color: AppColors.appOrange,
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+               // SizedBox(width: 4.w),
+                // Value section (60%)
+                Flexible(
+                  flex: 6, // 60% of the row width
+                  child: Container(
+                    width: double.infinity,
+                    color: Colors.blue.withOpacity(0.2), // Color for the value background
+                    padding: const EdgeInsets.all(8),
+                    child: Obx(
+                          () => Text(
+                        '${controller.monthlyTarget} AED',
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.inter(
+                          color: Colors.blue,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+
+
+
+
+
         ],
       ),
     );
@@ -229,7 +358,6 @@ class _AddHoursScreenState extends State<AddHoursScreen> {
         borderRadius: BorderRadius.circular(6),
         border: Border.all(color: Colors.black87),
       ),
-
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
@@ -243,16 +371,15 @@ class _AddHoursScreenState extends State<AddHoursScreen> {
             padding: REdgeInsets.symmetric(vertical: 5.h),
             child: Center(
                 child: Text(
-                  'Log Hours',
-                  style: GoogleFonts.inter(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                  decoration: TextDecoration.underline,
-                    decorationColor: Colors.white,
-
-                  ),
-                )),
+              'Log Hours',
+              style: GoogleFonts.inter(
+                color: Colors.white,
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                decoration: TextDecoration.underline,
+                decorationColor: Colors.white,
+              ),
+            )),
           ),
           SizedBox(
             height: 20.h,
@@ -260,24 +387,28 @@ class _AddHoursScreenState extends State<AddHoursScreen> {
           TabBar(
             tabs: const [
               Padding(
-                padding: EdgeInsets.only(top: 8,bottom: 8,left: 15,right: 15),
+                padding:
+                    EdgeInsets.only(top: 8, bottom: 8, left: 15, right: 15),
                 child: Text('Men Salon'),
               ),
               Padding(
-                padding: EdgeInsets.only(top: 8,bottom: 8,left: 15,right: 15),
+                padding:
+                    EdgeInsets.only(top: 8, bottom: 8, left: 15, right: 15),
                 child: Text('Women Salon'),
               ),
               Padding(
-                padding: EdgeInsets.only(top: 8,bottom: 8,left: 15,right: 15),
+                padding:
+                    EdgeInsets.only(top: 8, bottom: 8, left: 15, right: 15),
                 child: Text('Pet Salon'),
               ),
             ],
             padding: REdgeInsets.only(bottom: 10),
             labelColor: Colors.white,
-            labelStyle:GoogleFonts.inter(fontWeight: FontWeight.w500, fontSize: 14) ,
+            labelStyle:
+                GoogleFonts.inter(fontWeight: FontWeight.w500, fontSize: 14),
             unselectedLabelColor: AppColors.appOrange,
             unselectedLabelStyle:
-            GoogleFonts.inter(fontWeight: FontWeight.w500, fontSize: 14),
+                GoogleFonts.inter(fontWeight: FontWeight.w500, fontSize: 14),
             isScrollable: true,
             tabAlignment: TabAlignment.start,
             dividerColor: AppColors.appOrange,
@@ -286,28 +417,16 @@ class _AddHoursScreenState extends State<AddHoursScreen> {
               shape: BoxShape.rectangle,
               borderRadius: BorderRadius.circular(20),
             ),
-
-
           ),
-
           const Expanded(
-            child: TabBarView(
-                children: [
-                  MenSaloonPage(),
-                  WomenSaloonPage(),
-                  PetSaloonPage()
-                ]
-            ),
+            child: TabBarView(children: [
+              MenSaloonPage(),
+              WomenSaloonPage(),
+              PetSaloonPage()
+            ]),
           ),
         ],
       ),
     );
   }
-
-
-
-
 }
-
-  
-  

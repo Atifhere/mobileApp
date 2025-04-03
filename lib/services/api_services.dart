@@ -57,6 +57,7 @@ class ApiServices {
           },
         ),
       );
+      print('work summary code: ${response.statusCode}');
       if (response.statusCode == 200) {
         return response;
       } else {

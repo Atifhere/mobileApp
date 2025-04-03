@@ -86,17 +86,17 @@ class _MyWorkScreenState extends State<MyWorkScreen> {
             decoration: BoxDecoration(
               borderRadius: const BorderRadius.only(
                   topRight: Radius.circular(5), topLeft: Radius.circular(5)),
-              color: AppColors.appOrange,
+              color: AppColors.orangeComYello,
             ),
             padding: REdgeInsets.symmetric(vertical: 5.h),
             child: Center(
               child: Text(
                 'My Service',
                 style: GoogleFonts.inter(
-                  color: Colors.white,
-                  fontSize: 18,
+                  color: Colors.black87,
+                  fontSize: 19,
                   fontWeight: FontWeight.bold,
-                  decoration: TextDecoration.underline,
+                 // decoration: TextDecoration.underline,
                   decorationColor: Colors.white,
                 ),
               ),
@@ -112,8 +112,8 @@ class _MyWorkScreenState extends State<MyWorkScreen> {
                   child: Card(
                     elevation: 3,
                     shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(2)),
-                    color: Colors.white,
+                        borderRadius: BorderRadius.circular(10)),
+                    color: Colors.lightBlue[100],
                     child: Padding(
                       padding:
                       REdgeInsets.only(left: 8.w, top: 8.h, bottom: 8.h,right: 8.w),
@@ -127,8 +127,8 @@ class _MyWorkScreenState extends State<MyWorkScreen> {
                               Text(
                                 'TODAY',
                                 style: GoogleFonts.inter(
-                                    color: AppColors.appOrange,
-                                    fontSize: 16,
+                                    color: Colors.black,
+                                    fontSize: 15,
                                     fontWeight: FontWeight.bold),
                               ),
                               SizedBox(height: 4.h),
@@ -141,7 +141,7 @@ class _MyWorkScreenState extends State<MyWorkScreen> {
                               )),
                             ],
                           ),
-                          Icon(Icons.cases_rounded,color: AppColors.appOrange,size: 30,),
+                          Icon(Icons.calendar_view_day,color: AppColors.appOrange,size: 30,),
 
                         ],
                       ),
@@ -153,8 +153,8 @@ class _MyWorkScreenState extends State<MyWorkScreen> {
                   child: Card(
                     elevation: 3,
                     shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(2)),
-                    color: Colors.white,
+                        borderRadius: BorderRadius.circular(10)),
+                    color: Colors.yellow[50],
                     child: Padding(
                       padding:
                       REdgeInsets.only(left: 8.w, top: 8.h, bottom: 8.h,right: 8.w),
@@ -168,8 +168,8 @@ class _MyWorkScreenState extends State<MyWorkScreen> {
                               Text(
                                 'THIS MONTH',
                                 style: GoogleFonts.inter(
-                                    color: AppColors.appOrange,
-                                    fontSize: 16,
+                                    color: Colors.black,
+                                    fontSize: 15,
                                     fontWeight: FontWeight.bold),
                               ),
                               SizedBox(height: 4.h),
@@ -182,7 +182,7 @@ class _MyWorkScreenState extends State<MyWorkScreen> {
                               )),
                             ],
                           ),
-                          Icon(Icons.cases_rounded,color: AppColors.appOrange,size: 30,),
+                          Icon(Icons.calendar_view_month,color: AppColors.appOrange,size: 30,),
 
                         ],
                       ),
