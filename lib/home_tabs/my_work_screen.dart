@@ -61,7 +61,7 @@ class _MyWorkScreenState extends State<MyWorkScreen> {
           children: [
             SizedBox(height: 10.h),
             myServices(context),
-            SizedBox(height: 20.h),
+            SizedBox(height: 10.h),
             Expanded(child: myLogHours(context)),
           ],
         ),
@@ -236,12 +236,15 @@ class _MyWorkScreenState extends State<MyWorkScreen> {
         children: [
           Container(
             width: MediaQuery.sizeOf(context).width,
+            height: 50.h, // Reduced height for a more compact design
             decoration: BoxDecoration(
               borderRadius: const BorderRadius.only(
-                  topRight: Radius.circular(5), topLeft: Radius.circular(5)),
+                topRight: Radius.circular(5),
+                topLeft: Radius.circular(5),
+              ),
               color: AppColors.appOrange,
             ),
-            padding: REdgeInsets.symmetric(vertical: 0.h),
+            padding: REdgeInsets.symmetric(vertical: 4.h), // Reduced vertical padding
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -254,15 +257,15 @@ class _MyWorkScreenState extends State<MyWorkScreen> {
                       ),
                     );
                   },
-                  icon: const Icon(Icons.arrow_left, color: Colors.white,size: 40,),
+                  icon: const Icon(Icons.arrow_left, color: Colors.white, size: 30), // Slightly smaller icon
                 ),
                 GestureDetector(
                   onTap: () => _selectDate(context),
                   child: Obx(() => Text(
-                    'Report - ${DateFormat('MMMM yyyy').format(controller.selectedDate.value)}',
+                    'Report - ${DateFormat('MMMM yyyy').format(controller.selectedDate.value)}'.toUpperCase(),
                     style: GoogleFonts.inter(
                       color: Colors.white,
-                      fontSize: 18,
+                      fontSize: 16, // Slightly reduced font size
                       fontWeight: FontWeight.bold,
                     ),
                   )),
@@ -276,133 +279,201 @@ class _MyWorkScreenState extends State<MyWorkScreen> {
                       ),
                     );
                   },
-                  icon: Icon(Icons.arrow_right, color: Colors.white,size: 40),
+                  icon: Icon(Icons.arrow_right, color: Colors.white, size: 30), // Slightly smaller icon
                 ),
               ],
             ),
           ),
-          const SizedBox(height: 10),
+          //const SizedBox(height: 10),
           Expanded(
             child: Obx(() {
               final filteredReports = controller.getFilteredReports();
-              if (filteredReports.isEmpty) {
-                return Center(
-                  child: Text(
-                    'No data found for ${DateFormat('MMMM yyyy').format(controller.selectedDate.value)}',
-                    style: GoogleFonts.poppins(color: Colors.black),
-                  ),
-                );
-              }
+
+              // if (filteredReports.isEmpty) {
+              //   return Center(
+              //     child: Text(
+              //       'No data found for ${DateFormat('MMMM yyyy').format(controller.selectedDate.value)}',
+              //       style: GoogleFonts.poppins(color: Colors.black),
+              //     ),
+              //   );
+              // }
               return Obx(() {
                 if(controller.allReports.isEmpty){
-                  return Center(child: loading());
+                  return Center(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min, // Ensures the column takes minimal vertical space
+                      mainAxisAlignment: MainAxisAlignment.center, // Centers vertically within the column
+                      crossAxisAlignment: CrossAxisAlignment.center, // Centers horizontally within the column
+                      children: [
+                        loading(),
+                        SizedBox(height: 10), // Space between loading indicator and text
+                        Text(
+                          "Please Wait...",
+                          style: TextStyle(fontSize: 16, color: Colors.black),
+                        ),
+                      ],
+                    ),
+                  );
                 }else{
                   return ListView.builder(
                     itemCount: filteredReports.length,
                     shrinkWrap: true,
+                    padding: REdgeInsets.symmetric(vertical: 5.h),
                     itemBuilder: (context, index) {
-                      filteredReports.sort((a, b) => b.date.compareTo(a.date),);
+                      filteredReports.sort((a, b) => b.date.compareTo(a.date));
                       MonthlyReportModel model = filteredReports[index];
-                      double total=0;
-                      for(var e in model.data){
-                        total+=e.serviceFee;
-                      }
+                      double total = model.data.fold(0, (sum, e) => sum + e.serviceFee);
 
-                      return SizedBox(
-                        width: MediaQuery.sizeOf(context).width,
-                        child: Padding(
-                          padding: REdgeInsets.symmetric(horizontal: 15),
-                          child: Card(
-                            elevation: 3,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(2)
-                            ),
-                            color: Colors.white,
-                            child: Padding(
-                              padding: REdgeInsets.only(
-                                  left: 15.w,
-                                  top: 15.h,
-                                  bottom: 15.h,
-                                  right: 15.w),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Center(
-                                    child: Text(
-                                      controller.formatDate(model.date),
-                                      style: GoogleFonts.inter(
-                                          color: Colors.black,
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.w700,
-                                          decoration: TextDecoration.underline,
-                                          decorationThickness: 2),
+                      return Padding(
+                        padding: REdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
+                        child: Card(
+                          elevation: 4,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          color: Colors.white,
+                          child: Padding(
+                            padding: REdgeInsets.all(12.w),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Center(
+                                  child: Text(
+                                    controller.formatDate(model.date),
+                                    style: GoogleFonts.inter(
+                                      color: Colors.black87,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w800,
+                                      //decoration: TextDecoration.underline,
+                                      decorationThickness: 1.5,
                                     ),
                                   ),
-                                  SizedBox(height: 10.h),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text("Service Name",style: GoogleFonts.poppins(color: Colors.black,fontWeight: FontWeight.bold),),
-                                      Text("Amount",style: GoogleFonts.poppins(color: Colors.black,fontWeight: FontWeight.bold),),
-                                    ],
-                                  ),
-                                  const Divider(color: Colors.black,),
-                                  SizedBox(height: 10.h),
-                                  ListView.builder(
-                                    physics: const NeverScrollableScrollPhysics(),
-                                    itemCount: model.data.length,
-                                    shrinkWrap: true,
-                                    itemBuilder: (context, index) {
-                                      model.data.sort((a, b) => b.createdDate.compareTo(a.createdDate),);
-                                      return Container(
-                                        color: index % 2 == 0 ? const Color(0xffE0E0E0) : Colors.white,
-                                        padding: const EdgeInsets.all(5),
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(
-                                              model.data[index].serviceName,
-                                              style: GoogleFonts.poppins(
-                                                  color: Colors.black,
-                                                  fontWeight: FontWeight.bold
-                                              ),
-                                            ),
-                                            Text(
-                                              "${model.data[index].serviceFee} AED",
-                                              style: GoogleFonts.poppins(color: Colors.black),
-                                            ),
-                                          ],
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                  SizedBox(height: 10.h,),
-                                  Align(
-                                    alignment: Alignment.topRight,
-                                    child: Text(
-                                      "Total : $total AED",
-                                      style: GoogleFonts.inter(
-                                        color: Colors.black,
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w700,
+                                ),
+                                SizedBox(height: 8.h),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text("Service Name", style: GoogleFonts.poppins(color: Colors.grey[800], fontWeight: FontWeight.w600)),
+                                    Text("Amount", style: GoogleFonts.poppins(color: Colors.grey[800], fontWeight: FontWeight.w600)),
+                                  ],
+                                ),
+                                const Divider(color: Colors.grey),
+                                SizedBox(height: 8.h),
+                                ListView.builder(
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  itemCount: model.data.length,
+                                  shrinkWrap: true,
+                                  itemBuilder: (context, index) {
+                                    model.data.sort((a, b) => b.createdDate.compareTo(a.createdDate));
+                                    return Container(
+                                      color: index % 2 == 0 ? const Color(0xffF7F7F7) : Colors.white,
+                                      padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 0),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            model.data[index].serviceName,
+                                            style: GoogleFonts.poppins(color: Colors.black87, fontWeight: FontWeight.w500),
+                                          ),
+
+                                          Spacer(),
+                                          Text(
+                                            "${model.data[index].serviceFee} AED  ",
+                                            style: GoogleFonts.poppins(color: Colors.black87),
+                                          ),
+
+                                          //Icon(Icons.delete, color: AppColors.appOrange, size: 20),
+                                          // IconButton(
+                                          //   onPressed: () {
+                                          //     // Add your delete functionality here
+                                          //   //  controller.deleteItem(model.data[index].id);
+                                          //   },
+                                          //   icon: Icon(Icons.delete, color: AppColors.appOrange, size: 20),
+                                          // ),
+
+                                          IconButton(
+                                            onPressed: () {
+                                              showDeleteConfirmationDialog(context, () {
+                                               // controller.deleteItem(model.data[index]);
+                                              });
+                                            },
+                                            icon: Icon(Icons.delete, color: AppColors.appOrange, size: 20),
+                                          ),
+
+                                        ],
                                       ),
+                                    );
+                                  },
+                                ),
+                                SizedBox(height: 8.h),
+                                Align(
+                                  alignment: Alignment.centerRight,
+                                  child: Text(
+                                    "Total: $total AED",
+                                    style: GoogleFonts.inter(
+                                      color: Colors.black87,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
                                     ),
                                   ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
                           ),
                         ),
                       );
                     },
                   );
+;
                 }
               },);
             }),
           ),
         ],
       ),
+    );
+  }
+
+  void showDeleteConfirmationDialog(BuildContext context, VoidCallback onConfirm) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(
+            "Delete Confirmation",
+            style: GoogleFonts.inter(
+              fontWeight: FontWeight.bold,
+              fontSize: 18,
+            ),
+          ),
+          content: Text(
+            "Are you sure you want to delete this item?",
+            style: GoogleFonts.inter(fontSize: 16),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text(
+                "Cancel",
+                style: GoogleFonts.inter(color: Colors.black),
+              ),
+            ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppColors.appOrange,
+              ),
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+                onConfirm(); // Perform delete
+              },
+              child: Text(
+                "Delete",
+                style: GoogleFonts.inter(color: Colors.black),
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 
