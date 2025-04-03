@@ -85,18 +85,22 @@ class _MyWorkScreenState extends State<MyWorkScreen> {
             width: MediaQuery.sizeOf(context).width,
             decoration: BoxDecoration(
               borderRadius: const BorderRadius.only(
-                  topRight: Radius.circular(5), topLeft: Radius.circular(5)),
-              color: AppColors.orangeComYello,
+                topRight: Radius.circular(5),
+                topLeft: Radius.circular(5),
+              ),
+              color: AppColors
+                  .appOrange, // Dark orange background for better contrast
             ),
             padding: REdgeInsets.symmetric(vertical: 5.h),
             child: Center(
               child: Text(
-                'My Service',
+                'work summary'.toUpperCase(),
                 style: GoogleFonts.inter(
-                  color: Colors.black87,
-                  fontSize: 19,
+                  color: Colors.white,
+                  // Light text for readability
+                  fontSize: 16,
                   fontWeight: FontWeight.bold,
-                 // decoration: TextDecoration.underline,
+                  //decoration: TextDecoration.underline, // Optional for a stylish look
                   decorationColor: Colors.white,
                 ),
               ),
@@ -104,86 +108,108 @@ class _MyWorkScreenState extends State<MyWorkScreen> {
           ),
           SizedBox(height: 10.h),
           Padding(
-            padding: REdgeInsets.only(left: 10.w, bottom: 10.h, right: 10.w,),
+            padding: REdgeInsets.only(left: 10.w, bottom: 10.h, right: 10.w),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Expanded(
                   child: Card(
-                    elevation: 3,
+                    elevation: 4,
                     shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)),
-                    color: Colors.lightBlue[100],
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    color: Colors.white,
                     child: Padding(
-                      padding:
-                      REdgeInsets.only(left: 8.w, top: 8.h, bottom: 8.h,right: 8.w),
+                      padding: REdgeInsets.all(12.w),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
                                 'TODAY',
                                 style: GoogleFonts.inter(
-                                    color: Colors.black,
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.bold),
+                                  color: AppColors.appOrange,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
-                              SizedBox(height: 4.h),
+                              SizedBox(height: 6.h),
                               Obx(() => Text(
                                 '${controller.amountEarnedToday.value} AED',
                                 style: GoogleFonts.inter(
-                                    color: Colors.black,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w600),
+                                  color: Colors.black87,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w700,
+                                ),
                               )),
                             ],
                           ),
-                          Icon(Icons.calendar_view_day,color: AppColors.appOrange,size: 30,),
-
+                          Container(
+                            padding: EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              color: AppColors.appOrange.withOpacity(0.2),
+                              shape: BoxShape.circle,
+                            ),
+                            child: Icon(
+                              Icons.calendar_today,
+                              color: AppColors.appOrange,
+                              size: 28,
+                            ),
+                          ),
                         ],
                       ),
                     ),
                   ),
                 ),
-                SizedBox(width: 10.w),
+                SizedBox(width: 12.w),
                 Expanded(
                   child: Card(
-                    elevation: 3,
+                    elevation: 4,
                     shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)),
-                    color: Colors.yellow[50],
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    color: Colors.white,
                     child: Padding(
-                      padding:
-                      REdgeInsets.only(left: 8.w, top: 8.h, bottom: 8.h,right: 8.w),
+                      padding: REdgeInsets.all(12.w),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
                                 'THIS MONTH',
                                 style: GoogleFonts.inter(
-                                    color: Colors.black,
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.bold),
+                                  color: AppColors.appOrange,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
-                              SizedBox(height: 4.h),
+                              SizedBox(height: 6.h),
                               Obx(() => Text(
                                 '${controller.amountEarnedMonth.value} AED',
                                 style: GoogleFonts.inter(
-                                    color: Colors.black,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w600),
+                                  color: Colors.black87,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w700,
+                                ),
                               )),
                             ],
                           ),
-                          Icon(Icons.calendar_view_month,color: AppColors.appOrange,size: 30,),
-
+                          Container(
+                            padding: EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              color: AppColors.appOrange.withOpacity(0.2),
+                              shape: BoxShape.circle,
+                            ),
+                            child: Icon(
+                              Icons.calendar_month,
+                              color: AppColors.appOrange,
+                              size: 28,
+                            ),
+                          ),
                         ],
                       ),
                     ),

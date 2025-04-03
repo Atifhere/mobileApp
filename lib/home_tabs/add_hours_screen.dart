@@ -44,49 +44,54 @@ class _AddHoursScreenState extends State<AddHoursScreen> {
               SizedBox(
                 height: 10.h,
               ),
-              Align(
-                  alignment: Alignment.topLeft,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Obx(
-                        () => Text(
-                          "Welcome ${controller.name.value}",
-                          style: GoogleFonts.poppins(
-                              color: Colors.white, fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      Row(
-                        children: [
-                          GestureDetector(
-                              onTap: () async {
-                                final SharedPreferences prefs =
-                                    await SharedPreferences.getInstance();
-                                prefs.remove("token");
-                                prefs.remove("name");
-                                Get.offAll(() => const LoginScreen());
-                              },
-                              child: const Icon(
-                                Icons.logout,
-                                color: Colors.red,
-                              )),
-                          SizedBox(
-                            width: 5.w,
+              Padding(
+                //padding: const EdgeInsets.all(8.0),
+                padding: REdgeInsets.only(left: 3, right: 3),
+                child: Align(
+                    alignment: Alignment.topLeft,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Obx(
+                          () => Text(
+                            "Welcome ${controller.name.value}",
+                            style: GoogleFonts.poppins(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
                           ),
-                          Text(
-                            "Logout",
-                            style: GoogleFonts.poppins(color: Colors.white),
-                          )
-                        ],
-                      )
-                    ],
-                  )),
+                        ),
+                        Row(
+                          children: [
+                            GestureDetector(
+                                onTap: () async {
+                                  final SharedPreferences prefs =
+                                      await SharedPreferences.getInstance();
+                                  prefs.remove("token");
+                                  prefs.remove("name");
+                                  Get.offAll(() => const LoginScreen());
+                                },
+                                child: const Icon(
+                                  Icons.logout,
+                                  color: Colors.red,
+                                )),
+                            SizedBox(
+                              width: 5.w,
+                            ),
+                            Text(
+                              "Logout",
+                              style: GoogleFonts.poppins(color: Colors.white),
+                            )
+                          ],
+                        )
+                      ],
+                    )),
+              ),
               const SizedBox(
                 height: 10,
               ),
               myServices(context),
               SizedBox(
-                height: 20.h,
+                height: 10.h,
               ),
               Expanded(child: myLogHours(context)),
             ],
@@ -114,17 +119,19 @@ class _AddHoursScreenState extends State<AddHoursScreen> {
                 topRight: Radius.circular(5),
                 topLeft: Radius.circular(5),
               ),
-              color: AppColors.appOrange, // Dark orange background for better contrast
+              color: AppColors
+                  .appOrange, // Dark orange background for better contrast
             ),
             padding: REdgeInsets.symmetric(vertical: 5.h),
             child: Center(
               child: Text(
-                'My Details',
+                'MY Details'.toUpperCase(),
                 style: GoogleFonts.inter(
-                  color: Colors.white, // Light text for readability
+                  color: Colors.white,
+                  // Light text for readability
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
-                  decoration: TextDecoration.underline, // Optional for a stylish look
+                  //decoration: TextDecoration.underline, // Optional for a stylish look
                   decorationColor: Colors.white,
                 ),
               ),
@@ -133,11 +140,10 @@ class _AddHoursScreenState extends State<AddHoursScreen> {
           SizedBox(
             height: 7.h,
           ),
-
-
           Padding(
             // padding: const EdgeInsets.all(7.0),
-            padding: REdgeInsets.only(left: 7.w, top: 2.h, bottom: 2.h, right: 7.w),
+            padding:
+                REdgeInsets.only(left: 7.w, top: 2.h, bottom: 2.h, right: 7.w),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -146,7 +152,8 @@ class _AddHoursScreenState extends State<AddHoursScreen> {
                   flex: 4, // 40% of the row width
                   child: Container(
                     width: double.infinity,
-                    color: AppColors.appOrange.withOpacity(0.2), // Color for the key background
+                    color: AppColors.appOrange.withOpacity(0.2),
+                    // Color for the key background
                     padding: const EdgeInsets.all(8),
 
                     child: Text(
@@ -165,12 +172,13 @@ class _AddHoursScreenState extends State<AddHoursScreen> {
                   flex: 6, // 60% of the row width
                   child: Container(
                     width: double.infinity,
-                    color: Colors.blue.withOpacity(0.2), // Color for the value background
+                    color: Colors.blue.withOpacity(0.2),
+                    // Color for the value background
                     padding: const EdgeInsets.all(8),
-                   // padding: REdgeInsets.only(left: 2.w, top: 8.h, bottom: 8.h, right: 8.w),
+                    // padding: REdgeInsets.only(left: 2.w, top: 8.h, bottom: 8.h, right: 8.w),
 
                     child: Obx(
-                          () => Text(
+                      () => Text(
                         '${controller.companyName}',
                         textAlign: TextAlign.center,
                         style: GoogleFonts.inter(
@@ -185,14 +193,10 @@ class _AddHoursScreenState extends State<AddHoursScreen> {
               ],
             ),
           ),
-
-
-
-
           Padding(
             // padding: const EdgeInsets.all(7.0),
-            padding: REdgeInsets.only(
-                left: 7.w, top: 2.h, bottom: 2.h, right: 7.w),
+            padding:
+                REdgeInsets.only(left: 7.w, top: 2.h, bottom: 2.h, right: 7.w),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -201,7 +205,8 @@ class _AddHoursScreenState extends State<AddHoursScreen> {
                   flex: 4, // 40% of the row width
                   child: Container(
                     width: double.infinity,
-                    color: AppColors.appOrange.withOpacity(0.2), // Color for the key background
+                    color: AppColors.appOrange.withOpacity(0.2),
+                    // Color for the key background
                     padding: const EdgeInsets.all(8),
                     child: Text(
                       'This Month Earning:',
@@ -219,10 +224,11 @@ class _AddHoursScreenState extends State<AddHoursScreen> {
                   flex: 6, // 60% of the row width
                   child: Container(
                     width: double.infinity,
-                    color: Colors.blue.withOpacity(0.2), // Color for the value background
+                    color: Colors.blue.withOpacity(0.2),
+                    // Color for the value background
                     padding: const EdgeInsets.all(8),
                     child: Obx(
-                          () => Text(
+                      () => Text(
                         '${controller.myShareThisMonth} AED',
                         textAlign: TextAlign.center,
                         style: GoogleFonts.inter(
@@ -237,11 +243,10 @@ class _AddHoursScreenState extends State<AddHoursScreen> {
               ],
             ),
           ),
-
           Padding(
-           // padding: const EdgeInsets.all(7.0),
-            padding: REdgeInsets.only(
-                left: 7.w, top: 2.h, bottom: 2.h, right: 7.w),
+            // padding: const EdgeInsets.all(7.0),
+            padding:
+                REdgeInsets.only(left: 7.w, top: 2.h, bottom: 2.h, right: 7.w),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -250,7 +255,8 @@ class _AddHoursScreenState extends State<AddHoursScreen> {
                   flex: 4, // 40% of the row width
                   child: Container(
                     width: double.infinity,
-                    color: AppColors.appOrange.withOpacity(0.2), // Color for the key background
+                    color: AppColors.appOrange.withOpacity(0.2),
+                    // Color for the key background
                     padding: const EdgeInsets.all(8),
                     child: Text(
                       'My Share:',
@@ -268,10 +274,11 @@ class _AddHoursScreenState extends State<AddHoursScreen> {
                   flex: 6, // 60% of the row width
                   child: Container(
                     width: double.infinity,
-                    color: Colors.blue.withOpacity(0.2), // Color for the value background
+                    color: Colors.blue.withOpacity(0.2),
+                    // Color for the value background
                     padding: const EdgeInsets.all(8),
                     child: Obx(
-                          () => Text(
+                      () => Text(
                         '${controller.myPercentageValue}%',
                         textAlign: TextAlign.center,
                         style: GoogleFonts.inter(
@@ -286,15 +293,10 @@ class _AddHoursScreenState extends State<AddHoursScreen> {
               ],
             ),
           ),
-
-
-
-
-
           Padding(
             // padding: const EdgeInsets.all(7.0),
-            padding: REdgeInsets.only(
-                left: 7.w, top: 2.h, bottom: 7.h, right: 7.w),
+            padding:
+                REdgeInsets.only(left: 7.w, top: 2.h, bottom: 7.h, right: 7.w),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -303,7 +305,8 @@ class _AddHoursScreenState extends State<AddHoursScreen> {
                   flex: 4, // 40% of the row width
                   child: Container(
                     width: double.infinity,
-                    color: AppColors.appOrange.withOpacity(0.2), // Color for the key background
+                    color: AppColors.appOrange.withOpacity(0.2),
+                    // Color for the key background
                     padding: const EdgeInsets.all(8),
                     child: Text(
                       'Monthly Target:',
@@ -315,16 +318,17 @@ class _AddHoursScreenState extends State<AddHoursScreen> {
                     ),
                   ),
                 ),
-               // SizedBox(width: 4.w),
+                // SizedBox(width: 4.w),
                 // Value section (60%)
                 Flexible(
                   flex: 6, // 60% of the row width
                   child: Container(
                     width: double.infinity,
-                    color: Colors.blue.withOpacity(0.2), // Color for the value background
+                    color: Colors.blue.withOpacity(0.2),
+                    // Color for the value background
                     padding: const EdgeInsets.all(8),
                     child: Obx(
-                          () => Text(
+                      () => Text(
                         '${controller.monthlyTarget} AED',
                         textAlign: TextAlign.center,
                         style: GoogleFonts.inter(
@@ -339,12 +343,6 @@ class _AddHoursScreenState extends State<AddHoursScreen> {
               ],
             ),
           ),
-
-
-
-
-
-
         ],
       ),
     );
@@ -371,18 +369,18 @@ class _AddHoursScreenState extends State<AddHoursScreen> {
             padding: REdgeInsets.symmetric(vertical: 5.h),
             child: Center(
                 child: Text(
-              'Log Hours',
+              'Log Hours'.toUpperCase(),
               style: GoogleFonts.inter(
                 color: Colors.white,
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
-                decoration: TextDecoration.underline,
+                //decoration: TextDecoration.underline,
                 decorationColor: Colors.white,
               ),
             )),
           ),
           SizedBox(
-            height: 20.h,
+            height: 10.h,
           ),
           TabBar(
             tabs: const [
@@ -403,9 +401,9 @@ class _AddHoursScreenState extends State<AddHoursScreen> {
               ),
             ],
             padding: REdgeInsets.only(bottom: 10),
-            labelColor: Colors.white,
+            labelColor: AppColors.appOrange,
             labelStyle:
-                GoogleFonts.inter(fontWeight: FontWeight.w500, fontSize: 14),
+                GoogleFonts.inter(fontWeight: FontWeight.w700, fontSize: 14),
             unselectedLabelColor: AppColors.appOrange,
             unselectedLabelStyle:
                 GoogleFonts.inter(fontWeight: FontWeight.w500, fontSize: 14),
@@ -413,7 +411,10 @@ class _AddHoursScreenState extends State<AddHoursScreen> {
             tabAlignment: TabAlignment.start,
             dividerColor: AppColors.appOrange,
             indicator: BoxDecoration(
-              color: AppColors.appOrange,
+              // color: AppColors.appOrange,
+              color: AppColors.appOrange.withOpacity(0.2),
+              // Color for the key background
+
               shape: BoxShape.rectangle,
               borderRadius: BorderRadius.circular(20),
             ),
