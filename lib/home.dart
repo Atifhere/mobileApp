@@ -38,21 +38,20 @@ class Home extends StatelessWidget {
         backgroundColor: AppColors.appOrange,
         selectedItemColor: Colors.white,
         unselectedItemColor: AppColors.appBrown,
-        items:  [
+        selectedLabelStyle: TextStyle(fontSize: 16.sp), // Increased label size
+        unselectedLabelStyle: TextStyle(fontSize: 14.sp), // Optional: Increase unselected size too
+        items: [
           BottomNavigationBarItem(
-            //icon: ImageIcon(const AssetImage("images/log_Work_Icon.png"),size: 30.sp,),
-            //icon: ImageIcon(const AssetImage("images/today.png"),size: 30.sp,),
-            icon: Icon(Icons.timeline,size: 30.sp,),
-
+            icon: Icon(Icons.timeline, size: 25.sp),
             label: 'Log Hours',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.work_history_rounded,size: 30.sp,),
+            icon: Icon(Icons.work_history_rounded, size: 25.sp),
             label: 'My Work',
           ),
-          // Add more items if needed
         ],
-      ),
+      )
+
       ),
     );
   }

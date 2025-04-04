@@ -6,6 +6,7 @@ class ApiUrls {
     final String loginURL="${baseURl}Authorize/GenerateToken";
     final String workSummery="${baseURl}Staff/GetworkSummary";
     final String RemoveWork="${baseURl}Staff/RemoveWork";
+
     final String categoryUrl="${baseURl}Category/GetCategories";
     final String monthlyReport="${baseURl}Staff/MonthReport";
     final String updatePassword="${baseURl}User/UpdatePassword/Staff";

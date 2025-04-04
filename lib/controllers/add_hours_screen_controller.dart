@@ -10,9 +10,9 @@ class AddHoursScreenController extends GetxController{
   RxString amountEarnedToday="0".obs;
   RxString amountEarnedMonth="0".obs;
 
-  RxString myShareThisMonth="0".obs;
-  RxString myPercentageValue="0".obs;
-  RxString monthlyTarget="0".obs;
+  RxString myShareThisMonth="".obs;
+  RxString myPercentageValue="".obs;
+  RxString monthlyTarget="".obs;
   RxString companyName="".obs;
   RxString name="".obs;
 
@@ -31,9 +31,11 @@ class AddHoursScreenController extends GetxController{
         amountEarnedToday.value = (data['amountEarnedToday'] ?? '0').toString();
         amountEarnedMonth.value = (data['amountEarnedMonth'] ?? '0').toString();
 
-        myShareThisMonth.value = (data['myShareThisMonth'] ?? '0').toString();
-        myPercentageValue.value = (data['myPercentageValue'] ?? '0').toString();
-        monthlyTarget.value = (data['monthlyTarget'] ?? '0').toString();
+        myShareThisMonth.value = (data['myShareThisMonth'] ?? '').toString();
+
+        myPercentageValue.value = (data['myPercentageValue'] ?? '').toString();
+        monthlyTarget.value = (data['monthlyTarget'] ?? '').toString();
+
         companyName.value = (data['companyName'] ?? '').toString();
         if(companyName.value.length > 25){
           companyName.value = "${companyName.value.substring(0,24)}...";

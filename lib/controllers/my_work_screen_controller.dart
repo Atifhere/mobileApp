@@ -21,6 +21,30 @@ class MyWorkScreenController extends GetxController {
     loadLogHours();
   }
 
+  Future<void>deleteItem(String s) async {
+    try {
+      isLoading.value =true;
+      print('id item: $s');
+
+      // final response = await services.fetchWorkSummary();
+      final response = await services.RemoveWork( id: s);
+     // isLoading.value =false;
+      if (response.statusCode == 200) {
+        loadService();
+        loadLogHours();
+        // final Map<String, dynamic> data = response.data as Map<String, dynamic>;
+        // amountEarnedToday.value = (data['amountEarnedToday'] ?? '0').toString();
+        // amountEarnedMonth.value = (data['amountEarnedMonth'] ?? '0').toString();
+        //
+      }
+    } catch (e) {
+      print('Error loading service: $e');
+
+
+    }
+
+  }
+
   Future<void> loadService() async {
     try {
       final response = await services.fetchWorkSummary();
@@ -52,8 +76,13 @@ class MyWorkScreenController extends GetxController {
       amountEarnedMonth.value = monthTotal.toStringAsFixed(2);
     }
   }
+  bool isMonthGreater(DateTime newDate) {
+    DateTime currentDate = DateTime.now();
+    return newDate.month > currentDate.month;
+  }
 
   void updateSelectedDate(DateTime newDate) {
+    if(isMonthGreater(newDate)) return;
     selectedDate.value = newDate;
     loadLogHours(); // Reload data when date changes
   }
@@ -93,4 +122,6 @@ class MyWorkScreenController extends GetxController {
       return dateStr;
     }
   }
+
+
 }

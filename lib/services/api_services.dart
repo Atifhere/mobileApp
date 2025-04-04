@@ -40,8 +40,42 @@ class ApiServices {
       }
     }
   }
+  //    final String RemoveWork="${baseURl}Staff/RemoveWork";
 
 
+  Future<Response> RemoveWork({required String id, })  async {
+    try {
+      String token=await myToken();
+      final response = await dio.put('https://salonmanger.com/Staff/RemoveWork/$id',
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+          },
+        ),
+      );
+      print("dinesh");
+      print(response.data);
+      if (response.statusCode == 200) {
+        return response;
+        //final List<dynamic> data = response.data;
+        //return data.map((json) => MonthlyReportModel.fromJson(json)).toList();
+      } else {
+        throw Exception('Failed to delete: ${response.statusCode}');
+      }
+      //return response;
+    } on DioException catch (e) {
+      print(e.response);
+      if (e.response != null) {
+        return e.response!;
+      } else {
+        return Response(
+          requestOptions: e.requestOptions,
+          statusCode: 500,
+          data: {'error': e.message},
+        );
+      }
+    }
+  }
 
   Future<Response> fetchWorkSummary() async {
 

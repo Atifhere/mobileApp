@@ -34,7 +34,7 @@ class LoginController extends GetxController{
 
         prefs.setString('token', response["token"]);
         prefs.setString('name', response["userName"]);
-        Get.offAll(()=> const Home(),transition: Transition.downToUp,duration:const Duration(seconds: 1));
+        Get.offAll(()=> const Home(),transition: Transition.zoom,duration:const Duration(seconds: 1));
       }else{
         isLoading(false);
         showError("${response['title']}");

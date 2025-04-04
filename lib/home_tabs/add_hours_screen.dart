@@ -38,7 +38,7 @@ class _AddHoursScreenState extends State<AddHoursScreen> {
       child: Scaffold(
         backgroundColor: AppColors.appBrown,
         body: Padding(
-          padding: REdgeInsets.only(left: 10, right: 10, bottom: 20),
+          padding: REdgeInsets.only(left: 10, right: 10, bottom: 10),
           child: Column(
             children: [
               SizedBox(
@@ -60,28 +60,29 @@ class _AddHoursScreenState extends State<AddHoursScreen> {
                                 fontWeight: FontWeight.bold),
                           ),
                         ),
-                        Row(
-                          children: [
-                            GestureDetector(
-                                onTap: () async {
-                                  final SharedPreferences prefs =
-                                      await SharedPreferences.getInstance();
-                                  prefs.remove("token");
-                                  prefs.remove("name");
-                                  Get.offAll(() => const LoginScreen());
-                                },
-                                child: const Icon(
-                                  Icons.logout,
-                                  color: Colors.red,
-                                )),
-                            SizedBox(
-                              width: 5.w,
-                            ),
-                            Text(
-                              "Logout",
-                              style: GoogleFonts.poppins(color: Colors.white),
-                            )
-                          ],
+                        GestureDetector(
+                          onTap: () async {
+                            final SharedPreferences prefs =
+                            await SharedPreferences.getInstance();
+                            prefs.remove("token");
+                            prefs.remove("name");
+                            Get.offAll(() => const LoginScreen());
+                          },
+                          child: Row(
+                            children: [
+                              const Icon(
+                                Icons.logout,
+                                color: Colors.red,
+                              ),
+                              SizedBox(
+                                width: 5.w,
+                              ),
+                              Text(
+                                "Logout",
+                                style: GoogleFonts.poppins(color: Colors.white),
+                              )
+                            ],
+                          ),
                         )
                       ],
                     )),
@@ -229,7 +230,7 @@ class _AddHoursScreenState extends State<AddHoursScreen> {
                     padding: const EdgeInsets.all(8),
                     child: Obx(
                       () => Text(
-                        '${controller.myShareThisMonth} AED',
+                        '' ==controller.myShareThisMonth.value ? '': '${controller.myShareThisMonth} AED',
                         textAlign: TextAlign.center,
                         style: GoogleFonts.inter(
                           color: Colors.blue,
@@ -279,7 +280,7 @@ class _AddHoursScreenState extends State<AddHoursScreen> {
                     padding: const EdgeInsets.all(8),
                     child: Obx(
                       () => Text(
-                        '${controller.myPercentageValue}%',
+                        '' ==controller.myPercentageValue.value ? '': '${controller.myPercentageValue}%',
                         textAlign: TextAlign.center,
                         style: GoogleFonts.inter(
                           color: Colors.blue,
@@ -329,7 +330,7 @@ class _AddHoursScreenState extends State<AddHoursScreen> {
                     padding: const EdgeInsets.all(8),
                     child: Obx(
                       () => Text(
-                        '${controller.monthlyTarget} AED',
+                        '' ==controller.monthlyTarget.value ? '':  '${controller.monthlyTarget} AED',
                         textAlign: TextAlign.center,
                         style: GoogleFonts.inter(
                           color: Colors.blue,

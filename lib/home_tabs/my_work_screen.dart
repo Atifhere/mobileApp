@@ -7,6 +7,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hair_saloon/controllers/my_work_screen_controller.dart';
 import 'package:hair_saloon/halper/app_colors.dart';
 import 'package:hair_saloon/models/monthly_report_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../auth/login_screen.dart';
 import '../halper/methods.dart';
 import 'package:intl/intl.dart';
 
@@ -26,7 +28,6 @@ class _MyWorkScreenState extends State<MyWorkScreen> {
     controller.loadService();
     controller.loadLogHours();
   }
-  
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
@@ -56,9 +57,49 @@ class _MyWorkScreenState extends State<MyWorkScreen> {
     return Scaffold(
       backgroundColor: AppColors.appBrown,
       body: Padding(
-        padding: REdgeInsets.only(left: 10, right: 10, bottom: 20),
+        padding: REdgeInsets.only(left: 10, right: 10, bottom: 10),
         child: Column(
           children: [
+            Padding(
+              //padding: const EdgeInsets.all(8.0),
+              padding: REdgeInsets.only(left: 3, right: 3),
+              child: Align(
+                  alignment: Alignment.topLeft,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "My Work List",
+                        style: GoogleFonts.poppins(
+                            color: Colors.white, fontWeight: FontWeight.bold),
+                      ),
+                      GestureDetector(
+                        onTap: () async {
+                          final SharedPreferences prefs =
+                              await SharedPreferences.getInstance();
+                          prefs.remove("token");
+                          prefs.remove("name");
+                          Get.offAll(() => const LoginScreen());
+                        },
+                        child: Row(
+                          children: [
+                            const Icon(
+                              Icons.logout,
+                              color: Colors.red,
+                            ),
+                            SizedBox(
+                              width: 5.w,
+                            ),
+                            Text(
+                              "Logout",
+                              style: GoogleFonts.poppins(color: Colors.white),
+                            )
+                          ],
+                        ),
+                      )
+                    ],
+                  )),
+            ),
             SizedBox(height: 10.h),
             myServices(context),
             SizedBox(height: 10.h),
@@ -137,13 +178,13 @@ class _MyWorkScreenState extends State<MyWorkScreen> {
                               ),
                               SizedBox(height: 6.h),
                               Obx(() => Text(
-                                '${controller.amountEarnedToday.value} AED',
-                                style: GoogleFonts.inter(
-                                  color: Colors.black87,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              )),
+                                    '${controller.amountEarnedToday.value} AED',
+                                    style: GoogleFonts.inter(
+                                      color: Colors.black87,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  )),
                             ],
                           ),
                           Container(
@@ -189,13 +230,13 @@ class _MyWorkScreenState extends State<MyWorkScreen> {
                               ),
                               SizedBox(height: 6.h),
                               Obx(() => Text(
-                                '${controller.amountEarnedMonth.value} AED',
-                                style: GoogleFonts.inter(
-                                  color: Colors.black87,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              )),
+                                    '${controller.amountEarnedMonth.value} AED',
+                                    style: GoogleFonts.inter(
+                                      color: Colors.black87,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  )),
                             ],
                           ),
                           Container(
@@ -236,7 +277,8 @@ class _MyWorkScreenState extends State<MyWorkScreen> {
         children: [
           Container(
             width: MediaQuery.sizeOf(context).width,
-            height: 50.h, // Reduced height for a more compact design
+            height: 50.h,
+            // Reduced height for a more compact design
             decoration: BoxDecoration(
               borderRadius: const BorderRadius.only(
                 topRight: Radius.circular(5),
@@ -244,7 +286,8 @@ class _MyWorkScreenState extends State<MyWorkScreen> {
               ),
               color: AppColors.appOrange,
             ),
-            padding: REdgeInsets.symmetric(vertical: 4.h), // Reduced vertical padding
+            padding: REdgeInsets.symmetric(vertical: 4.h),
+            // Reduced vertical padding
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -257,18 +300,20 @@ class _MyWorkScreenState extends State<MyWorkScreen> {
                       ),
                     );
                   },
-                  icon: const Icon(Icons.arrow_left, color: Colors.white, size: 30), // Slightly smaller icon
+                  icon: const Icon(Icons.arrow_left,
+                      color: Colors.white, size: 30), // Slightly smaller icon
                 ),
                 GestureDetector(
                   onTap: () => _selectDate(context),
                   child: Obx(() => Text(
-                    'Report - ${DateFormat('MMMM yyyy').format(controller.selectedDate.value)}'.toUpperCase(),
-                    style: GoogleFonts.inter(
-                      color: Colors.white,
-                      fontSize: 16, // Slightly reduced font size
-                      fontWeight: FontWeight.bold,
-                    ),
-                  )),
+                        'Report - ${DateFormat('MMMM yyyy').format(controller.selectedDate.value)}'
+                            .toUpperCase(),
+                        style: GoogleFonts.inter(
+                          color: Colors.white,
+                          fontSize: 16, // Slightly reduced font size
+                          fontWeight: FontWeight.bold,
+                        ),
+                      )),
                 ),
                 IconButton(
                   onPressed: () {
@@ -279,7 +324,8 @@ class _MyWorkScreenState extends State<MyWorkScreen> {
                       ),
                     );
                   },
-                  icon: Icon(Icons.arrow_right, color: Colors.white, size: 30), // Slightly smaller icon
+                  icon: Icon(Icons.arrow_right,
+                      color: Colors.white, size: 30), // Slightly smaller icon
                 ),
               ],
             ),
@@ -297,136 +343,164 @@ class _MyWorkScreenState extends State<MyWorkScreen> {
               //     ),
               //   );
               // }
-              return Obx(() {
-                if(controller.allReports.isEmpty){
-                  return Center(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min, // Ensures the column takes minimal vertical space
-                      mainAxisAlignment: MainAxisAlignment.center, // Centers vertically within the column
-                      crossAxisAlignment: CrossAxisAlignment.center, // Centers horizontally within the column
-                      children: [
-                        loading(),
-                        SizedBox(height: 10), // Space between loading indicator and text
-                        Text(
-                          "Please Wait...",
-                          style: TextStyle(fontSize: 16, color: Colors.black),
-                        ),
-                      ],
-                    ),
-                  );
-                }else{
-                  return ListView.builder(
-                    itemCount: filteredReports.length,
-                    shrinkWrap: true,
-                    padding: REdgeInsets.symmetric(vertical: 5.h),
-                    itemBuilder: (context, index) {
-                      filteredReports.sort((a, b) => b.date.compareTo(a.date));
-                      MonthlyReportModel model = filteredReports[index];
-                      double total = model.data.fold(0, (sum, e) => sum + e.serviceFee);
-
-                      return Padding(
-                        padding: REdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
-                        child: Card(
-                          elevation: 4,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
+              return Obx(
+                () {
+                  if (controller.allReports.isEmpty) {
+                    return Center(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        // Ensures the column takes minimal vertical space
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        // Centers vertically within the column
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        // Centers horizontally within the column
+                        children: [
+                          loading(),
+                          SizedBox(height: 10),
+                          // Space between loading indicator and text
+                          Text(
+                            "Please Wait...",
+                            style: TextStyle(fontSize: 16, color: Colors.black),
                           ),
-                          color: Colors.white,
-                          child: Padding(
-                            padding: REdgeInsets.all(12.w),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Center(
-                                  child: Text(
-                                    controller.formatDate(model.date),
-                                    style: GoogleFonts.inter(
-                                      color: Colors.black87,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w800,
-                                      //decoration: TextDecoration.underline,
-                                      decorationThickness: 1.5,
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(height: 8.h),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text("Service Name", style: GoogleFonts.poppins(color: Colors.grey[800], fontWeight: FontWeight.w600)),
-                                    Text("Amount", style: GoogleFonts.poppins(color: Colors.grey[800], fontWeight: FontWeight.w600)),
-                                  ],
-                                ),
-                                const Divider(color: Colors.grey),
-                                SizedBox(height: 8.h),
-                                ListView.builder(
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  itemCount: model.data.length,
-                                  shrinkWrap: true,
-                                  itemBuilder: (context, index) {
-                                    model.data.sort((a, b) => b.createdDate.compareTo(a.createdDate));
-                                    return Container(
-                                      color: index % 2 == 0 ? const Color(0xffF7F7F7) : Colors.white,
-                                      padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 0),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            model.data[index].serviceName,
-                                            style: GoogleFonts.poppins(color: Colors.black87, fontWeight: FontWeight.w500),
-                                          ),
+                        ],
+                      ),
+                    );
+                  } else {
+                    return ListView.builder(
+                      itemCount: filteredReports.length,
+                      shrinkWrap: true,
+                      padding: REdgeInsets.symmetric(vertical: 5.h),
+                      itemBuilder: (context, index) {
+                        filteredReports
+                            .sort((a, b) => b.date.compareTo(a.date));
+                        MonthlyReportModel model = filteredReports[index];
+                        double total =
+                            model.data.fold(0, (sum, e) => sum + e.serviceFee);
 
-                                          Spacer(),
-                                          Text(
-                                            "${model.data[index].serviceFee} AED  ",
-                                            style: GoogleFonts.poppins(color: Colors.black87),
-                                          ),
-
-                                          //Icon(Icons.delete, color: AppColors.appOrange, size: 20),
-                                          // IconButton(
-                                          //   onPressed: () {
-                                          //     // Add your delete functionality here
-                                          //   //  controller.deleteItem(model.data[index].id);
-                                          //   },
-                                          //   icon: Icon(Icons.delete, color: AppColors.appOrange, size: 20),
-                                          // ),
-
-                                          IconButton(
-                                            onPressed: () {
-                                              showDeleteConfirmationDialog(context, () {
-                                               // controller.deleteItem(model.data[index]);
-                                              });
-                                            },
-                                            icon: Icon(Icons.delete, color: AppColors.appOrange, size: 20),
-                                          ),
-
-                                        ],
+                        return Padding(
+                          padding: REdgeInsets.symmetric(
+                              horizontal: 10.w, vertical: 5.h),
+                          child: Card(
+                            elevation: 4,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            color: Colors.white,
+                            child: Padding(
+                              padding: REdgeInsets.all(12.w),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Center(
+                                    child: Text(
+                                      controller.formatDate(model.date),
+                                      style: GoogleFonts.inter(
+                                        color: Colors.black87,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w800,
+                                        //decoration: TextDecoration.underline,
+                                        decorationThickness: 1.5,
                                       ),
-                                    );
-                                  },
-                                ),
-                                SizedBox(height: 8.h),
-                                Align(
-                                  alignment: Alignment.centerRight,
-                                  child: Text(
-                                    "Total: $total AED",
-                                    style: GoogleFonts.inter(
-                                      color: Colors.black87,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
                                     ),
                                   ),
-                                ),
-                              ],
+                                  SizedBox(height: 8.h),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text("Service Name",
+                                          style: GoogleFonts.poppins(
+                                              color: Colors.grey[800],
+                                              fontWeight: FontWeight.w600)),
+                                      Text("Amount",
+                                          style: GoogleFonts.poppins(
+                                              color: Colors.grey[800],
+                                              fontWeight: FontWeight.w600)),
+                                    ],
+                                  ),
+                                  const Divider(color: Colors.grey),
+                                  SizedBox(height: 8.h),
+                                  ListView.builder(
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    itemCount: model.data.length,
+                                    shrinkWrap: true,
+                                    itemBuilder: (context, index) {
+                                      model.data.sort((a, b) => b.createdDate
+                                          .compareTo(a.createdDate));
+                                      return Container(
+                                        color: index % 2 == 0
+                                            ? const Color(0xffF7F7F7)
+                                            : Colors.white,
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 6, horizontal: 0),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              model.data[index].serviceName,
+                                              style: GoogleFonts.poppins(
+                                                  color: Colors.black87,
+                                                  fontWeight: FontWeight.w500),
+                                            ),
+
+                                            Spacer(),
+                                            Text(
+                                              "${model.data[index].serviceFee} AED  ",
+                                              style: GoogleFonts.poppins(
+                                                  color: Colors.black87),
+                                            ),
+
+                                            GestureDetector(
+                                                onTap: () async {
+                                                  showDeleteConfirmationDialog(
+                                                      context, () {
+                                                    controller.deleteItem(
+                                                        model.data[index].id +
+                                                            '');
+                                                  });
+                                                },
+                                                child: Icon(Icons.delete,
+                                                    color: AppColors.appOrange,
+                                                    size: 20)),
+
+                                            // GestureDetector(
+                                            //   onTap: () async {
+                                            //     final SharedPreferences prefs =
+                                            //     await SharedPreferences.getInstance();
+                                            //     prefs.remove("token");
+                                            //     prefs.remove("name");
+                                            //     Get.offAll(() => const LoginScreen());
+                                            //   },
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                  SizedBox(height: 8.h),
+                                  Align(
+                                    alignment: Alignment.centerRight,
+                                    child: Text(
+                                      "Total: $total AED",
+                                      style: GoogleFonts.inter(
+                                        color: Colors.black87,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                      );
-                    },
-                  );
-;
-                }
-              },);
+                        );
+                      },
+                    );
+                    ;
+                  }
+                },
+              );
             }),
           ),
         ],
@@ -434,7 +508,8 @@ class _MyWorkScreenState extends State<MyWorkScreen> {
     );
   }
 
-  void showDeleteConfirmationDialog(BuildContext context, VoidCallback onConfirm) {
+  void showDeleteConfirmationDialog(
+      BuildContext context, VoidCallback onConfirm) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -476,5 +551,4 @@ class _MyWorkScreenState extends State<MyWorkScreen> {
       },
     );
   }
-
 }
