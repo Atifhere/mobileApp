@@ -117,6 +117,8 @@ class WomenSaloonPageController  extends GetxController{
     controller.amountEarnedToday.value=(int.parse(controller.amountEarnedToday.value)+grandTotal.value).toString();
 
     grandTotal.value=0;
+    selectedServices.clear();
+
     int subCategoryLength = allData[1].value!.subCategories.length;
     allControllers.value = List.generate(
       subCategoryLength,

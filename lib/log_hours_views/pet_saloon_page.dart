@@ -23,6 +23,8 @@ class _PetSaloonPageState extends State<PetSaloonPage> {
   void initState() {
     super.initState();
     controller.loadData();
+    controller.selectedServices.clear();
+
   }
 
   @override
@@ -37,15 +39,8 @@ class _PetSaloonPageState extends State<PetSaloonPage> {
             child: Obx(() {
               if (controller.isLoading.value) {
                 return Center(child: loading());
-              } else if (controller.allData.isEmpty ||
-                  controller.allData[2].value == null ||
-                  controller.allData[2].value!.subCategories.isEmpty) {
-                return Center(
-                  child: Text(
-                    "No Data Available",
-                    style: GoogleFonts.poppins(color: Colors.black),
-                  ),
-                );
+              } else if (controller.allData[2].value!.subCategories.isEmpty) {
+                return Center(child:  Text("No Data Available",style: GoogleFonts.poppins(color: Colors.black),));
               } else {
                 return ListView.builder(
                   padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 15.w),
@@ -54,58 +49,68 @@ class _PetSaloonPageState extends State<PetSaloonPage> {
                     final data = controller.allData[2].value!.subCategories[index];
 
                     return Padding(
-                      padding: EdgeInsets.symmetric(vertical: 2.h),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              Transform.scale(
-                                scale: 0.6,
-                                child: Obx(
-                                      () => Switch(
-                                    value: controller.allData[2].value!.subCategories[index].enabled,
-                                    onChanged: (value) {
-                                      controller.allData[2].value!.subCategories[index].enabled = value;
-                                      controller.toggleService(index, value);
-                                      setState(() {});
-                                    },
-                                    activeColor: Colors.white,
-                                    activeTrackColor: AppColors.appOrange,
-                                    inactiveThumbColor: Colors.grey,
-                                    inactiveTrackColor: Colors.grey[400],
-                                  ),
-                                ),
-                              ),
-                              SizedBox(width: 10.w),
-                              Text(
+                      padding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 2.w),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(8),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.15),
+                              blurRadius: 3,
+                              offset: const Offset(0, 1),
+                            ),
+                          ],
+                        ),
+                        padding: EdgeInsets.symmetric(vertical: 1.5.h, horizontal: 3.w),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            // Text (Name)
+                            Expanded(
+                              child: Text(
                                 data.name,
                                 style: GoogleFonts.inter(
-                                  color: Colors.black,
+                                  color: Colors.black87,
                                   fontWeight: FontWeight.w500,
                                   fontSize: 12.sp,
                                 ),
                               ),
-                            ],
-                          ),
-                          SizedBox(
-                            width: 130.w,
-                            child: Obx(
-                                  () => TextField(
+                            ),
+
+                            // Amount Input
+                            SizedBox(
+                              width: 100.w, // Reduced width for a compact look
+                              child: Obx(() => TextField(
                                 controller: controller.allControllers[index].value ?? TextEditingController(),
                                 enabled: controller.allData[2].value!.subCategories[index].enabled,
                                 keyboardType: TextInputType.number,
                                 textAlign: TextAlign.center,
-                                decoration: const InputDecoration(
+                                decoration: InputDecoration(
                                   hintText: 'Enter Amount',
-                                  hintStyle: TextStyle(
-                                    fontSize: 12,
+                                  hintStyle: GoogleFonts.inter(
+                                    fontSize: 11,
                                     fontWeight: FontWeight.normal,
-                                    color: Colors.black87,
+                                    color: Colors.grey[600],
+                                  ),
+                                  filled: true,
+                                  fillColor: Colors.grey[100],
+                                  contentPadding: EdgeInsets.symmetric(vertical: 6, horizontal: 10),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(6),
+                                    borderSide: BorderSide(color: Colors.grey[300]!),
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(6),
+                                    borderSide: BorderSide(color: Colors.grey[300]!),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(6),
+                                    borderSide: BorderSide(color: AppColors.appOrange, width: 1.2),
                                   ),
                                 ),
                                 style: GoogleFonts.inter(
-                                  fontSize: 12,
+                                  fontSize: 11,
                                   fontWeight: FontWeight.normal,
                                   color: Colors.black87,
                                 ),
@@ -115,10 +120,34 @@ class _PetSaloonPageState extends State<PetSaloonPage> {
                                 onChanged: (value) {
                                   controller.updatePrice(index, value);
                                 },
-                              ),
+                              )),
                             ),
-                          ),
-                        ],
+                            // Text(
+                            //   " AED",
+                            //   style: GoogleFonts.inter(
+                            //     color: Colors.black87,
+                            //     fontWeight: FontWeight.w500,
+                            //     fontSize: 8.sp,
+                            //   ),
+                            // ),
+                            // Switch at the end
+                            Transform.scale(
+                              scale: 0.7, // Reduced size for a more compact look
+                              child: Obx(() => Switch(
+                                value: controller.allData[2].value!.subCategories[index].enabled,
+                                onChanged: (value) {
+                                  controller.allData[2].value!.subCategories[index].enabled = value;
+                                  controller.toggleService(index, value);
+                                  setState(() {});
+                                },
+                                activeColor: Colors.white,
+                                activeTrackColor: AppColors.appOrange,
+                                inactiveThumbColor: Colors.grey[300],
+                                inactiveTrackColor: Colors.grey[400],
+                              )),
+                            ),
+                          ],
+                        ),
                       ),
                     );
                   },
@@ -126,57 +155,66 @@ class _PetSaloonPageState extends State<PetSaloonPage> {
               }
             }),
           ),
+
+
           Container(
             color: AppColors.appOrange,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Obx(
-                        () => Text(
-                      'Grand Total: ${controller.grandTotal.value.toStringAsFixed(2)} AED',
-                      style: GoogleFonts.inter(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 14.sp,
-                      ),
+            padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 16),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                // Grand Total Text
+                Obx(
+                      () => Text(
+                    'Grand Total: ${controller.grandTotal.value.toStringAsFixed(2)} AED',
+                    style: GoogleFonts.inter(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 15.sp,
                     ),
                   ),
-                  Obx(() {
-                    if (controller.saveLoading.value) {
-                      return Center(
-                        child: LoadingAnimationWidget.staggeredDotsWave(
+                ),
+
+                // Save Button or Loading Animation
+                Obx(() {
+                  if (controller.saveLoading.value) {
+                    return Center(
+                      child: LoadingAnimationWidget.staggeredDotsWave(
+                        color: Colors.white,
+                        size: 30,
+                      ),
+                    );
+                  } else {
+                    return ElevatedButton.icon(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.appBrown,
+                        minimumSize: const Size(80, 35),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                      onPressed: () {
+                        print('Selected Services: ${controller.selectedServices.map((e) => "${e.subCategoryId}: ${e.serviceFee}").toList()}');
+                        controller.saveData();
+                      },
+                      icon: const Icon(Icons.save, size: 18, color: Colors.white),
+                      label: Text(
+                        'Save',
+                        style: GoogleFonts.inter(
                           color: Colors.white,
-                          size: 30,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 12.sp,
                         ),
-                      );
-                    } else {
-                      return ElevatedButton(
-                        style: ButtonStyle(
-                          backgroundColor: WidgetStatePropertyAll(AppColors.appBrown),
-                          minimumSize: const WidgetStatePropertyAll(Size(80, 35)),
-                        ),
-                        onPressed: () {
-                          print(
-                              'Selected Services: ${controller.selectedServices.map((e) => "${e.subCategoryId}: ${e.serviceFee}").toList()}');
-                          controller.saveData();
-                        },
-                        child: Text(
-                          'Save',
-                          style: GoogleFonts.inter(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 12.sp,
-                          ),
-                        ),
-                      );
-                    }
-                  }),
-                ],
-              ),
+                      ),
+                    );
+                  }
+                }),
+              ],
             ),
           ),
+
+
+
         ],
       ),
     );

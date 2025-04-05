@@ -25,6 +25,7 @@ class _MyWorkScreenState extends State<MyWorkScreen> {
   @override
   void initState() {
     super.initState();
+    controller.selectedDate.value = DateTime.now();
     controller.loadService();
     controller.loadLogHours();
   }
@@ -60,6 +61,7 @@ class _MyWorkScreenState extends State<MyWorkScreen> {
         padding: REdgeInsets.only(left: 10, right: 10, bottom: 10),
         child: Column(
           children: [
+            SizedBox(height: 10.h),
             Padding(
               //padding: const EdgeInsets.all(8.0),
               padding: REdgeInsets.only(left: 3, right: 3),
@@ -100,7 +102,7 @@ class _MyWorkScreenState extends State<MyWorkScreen> {
                     ],
                   )),
             ),
-            SizedBox(height: 10.h),
+            SizedBox(height: 7.h),
             myServices(context),
             SizedBox(height: 10.h),
             Expanded(child: myLogHours(context)),
@@ -335,14 +337,15 @@ class _MyWorkScreenState extends State<MyWorkScreen> {
             child: Obx(() {
               final filteredReports = controller.getFilteredReports();
 
-              // if (filteredReports.isEmpty) {
-              //   return Center(
-              //     child: Text(
-              //       'No data found for ${DateFormat('MMMM yyyy').format(controller.selectedDate.value)}',
-              //       style: GoogleFonts.poppins(color: Colors.black),
-              //     ),
-              //   );
-              // }
+              //if (filteredReports.isEmpty) {
+              if (controller.isLoading.value ==false && filteredReports.isEmpty) {
+                return Center(
+                  child: Text(
+                    'No data found for ${DateFormat('MMMM yyyy').format(controller.selectedDate.value)}',
+                    style: GoogleFonts.poppins(color: Colors.black),
+                  ),
+                );
+              }
               return Obx(
                 () {
                   if (controller.allReports.isEmpty) {
@@ -434,45 +437,65 @@ class _MyWorkScreenState extends State<MyWorkScreen> {
                                             : Colors.white,
                                         padding: const EdgeInsets.symmetric(
                                             vertical: 6, horizontal: 0),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
+                                        child: Column(
                                           children: [
-                                            Text(
-                                              model.data[index].serviceName,
-                                              style: GoogleFonts.poppins(
-                                                  color: Colors.black87,
-                                                  fontWeight: FontWeight.w500),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Text(
+                                                 // model.data[index].serviceName,
+                                                "${index+1}. ${model.data[index].serviceName}",
+                                                  style: GoogleFonts.poppins(
+                                                      color: Colors.black87,
+                                                      fontWeight: FontWeight.w500),
+                                                ),
+
+
+                                                Spacer(),
+                                                Text(
+                                                  "${model.data[index].serviceFee} AED  ",
+                                                  style: GoogleFonts.poppins(
+                                                      color: Colors.black87),
+                                                ),
+
+                                                GestureDetector(
+                                                    onTap: () async {
+                                                      showDeleteConfirmationDialog(
+                                                          context, () {
+                                                        controller.deleteItem(
+                                                            model.data[index].id +
+                                                                '');
+                                                      });
+                                                    },
+                                                    child: Icon(Icons.delete,
+                                                        color: AppColors.appOrange,
+                                                        size: 20)),
+
+                                                // GestureDetector(
+                                                //   onTap: () async {
+                                                //     final SharedPreferences prefs =
+                                                //     await SharedPreferences.getInstance();
+                                                //     prefs.remove("token");
+                                                //     prefs.remove("name");
+                                                //     Get.offAll(() => const LoginScreen());
+                                                //   },
+                                              ],
                                             ),
+                                            Align(
+                                              alignment: Alignment.centerLeft,
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(left: 12.0),
+                                                child: Text(
+                                                  "${model.data[index].category} - ${model.data[index].serviceTime}",
+                                                  style: GoogleFonts.poppins(
+                                                      color: Colors.black87,
+                                                      fontSize: 15,
+                                                      fontWeight: FontWeight.w400),
 
-                                            Spacer(),
-                                            Text(
-                                              "${model.data[index].serviceFee} AED  ",
-                                              style: GoogleFonts.poppins(
-                                                  color: Colors.black87),
+                                                ),
+                                              ),
                                             ),
-
-                                            GestureDetector(
-                                                onTap: () async {
-                                                  showDeleteConfirmationDialog(
-                                                      context, () {
-                                                    controller.deleteItem(
-                                                        model.data[index].id +
-                                                            '');
-                                                  });
-                                                },
-                                                child: Icon(Icons.delete,
-                                                    color: AppColors.appOrange,
-                                                    size: 20)),
-
-                                            // GestureDetector(
-                                            //   onTap: () async {
-                                            //     final SharedPreferences prefs =
-                                            //     await SharedPreferences.getInstance();
-                                            //     prefs.remove("token");
-                                            //     prefs.remove("name");
-                                            //     Get.offAll(() => const LoginScreen());
-                                            //   },
                                           ],
                                         ),
                                       );

@@ -3,6 +3,9 @@ import 'package:hair_saloon/models/monthly_report_model.dart';
 import 'package:hair_saloon/services/api_services.dart';
 import 'package:intl/intl.dart';
 
+import '../auth/login_screen.dart';
+import '../halper/methods.dart';
+
 class MyWorkScreenController extends GetxController {
   RxString amountEarnedToday = "0".obs;
   RxString amountEarnedMonth = "0".obs;
@@ -18,7 +21,7 @@ class MyWorkScreenController extends GetxController {
   void onInit() {
     super.onInit();
     loadService();
-    loadLogHours();
+    //loadLogHours();
   }
 
   Future<void>deleteItem(String s) async {
@@ -53,6 +56,9 @@ class MyWorkScreenController extends GetxController {
         amountEarnedToday.value = (data['amountEarnedToday'] ?? '0').toString();
         amountEarnedMonth.value = (data['amountEarnedMonth'] ?? '0').toString();
       }
+      else{
+        Get.offAll(() => const LoginScreen());
+      }
     } catch (e) {
       print('Error loading service: $e');
       DateTime today = DateTime.now();
@@ -78,11 +84,14 @@ class MyWorkScreenController extends GetxController {
   }
   bool isMonthGreater(DateTime newDate) {
     DateTime currentDate = DateTime.now();
-    return newDate.month > currentDate.month;
+    return (newDate.month > currentDate.month && newDate.year > currentDate.year);
   }
 
   void updateSelectedDate(DateTime newDate) {
-    if(isMonthGreater(newDate)) return;
+    if(isMonthGreater(newDate)) {
+      showWarning('No Data found...');
+      return;
+    }
     selectedDate.value = newDate;
     loadLogHours(); // Reload data when date changes
   }
@@ -106,6 +115,9 @@ class MyWorkScreenController extends GetxController {
 
       // Fetch reports from the API with the date range
       final reports = await services.getMonthReport1(fromDate: fromDate, toDate: toDate);
+     // if(reports.length>0)
+     //      isLoading.value = false;
+
       allReports.addAll(reports);
     } catch (e) {
       print('Error loading log hours: $e');

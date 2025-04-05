@@ -47,6 +47,25 @@ ToastificationItem showError(String title){
   );
 }
 
+ToastificationItem showWarning(String title){
+  return toastification.show(
+      primaryColor: Colors.orange,
+      title: Text(
+        title,
+        style: GoogleFonts.inter(
+          color: Colors.white,
+          fontWeight: FontWeight.bold,
+        ),
+        maxLines: 4,
+        overflow: TextOverflow.ellipsis,
+      ),
+      autoCloseDuration: const Duration(seconds: 3),
+      showProgressBar: false,
+      icon: const Icon(Icons.error,color: Colors.white,),
+      style: ToastificationStyle.fillColored
+  );
+}
+
 Widget loading(){
   return LoadingAnimationWidget.staggeredDotsWave(
       color: AppColors.appOrange,

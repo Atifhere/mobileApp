@@ -24,6 +24,7 @@ class _MenSaloonPageState extends State<MenSaloonPage> {
   void initState() {
     super.initState();
     controller.loadData();
+    controller.selectedServices.clear();
   }
 
   @override

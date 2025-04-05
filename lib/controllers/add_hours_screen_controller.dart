@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 import 'package:hair_saloon/services/api_services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../auth/login_screen.dart';
+
 class AddHoursScreenController extends GetxController{
 
   ApiServices services=ApiServices();
@@ -27,6 +29,8 @@ class AddHoursScreenController extends GetxController{
       final response = await services.fetchWorkSummary();
       print(response);
       if (response.statusCode == 200) {
+        //Get.offAll(() => const LoginScreen());
+
         final Map<String, dynamic> data = response.data as Map<String, dynamic>;
         amountEarnedToday.value = (data['amountEarnedToday'] ?? '0').toString();
         amountEarnedMonth.value = (data['amountEarnedMonth'] ?? '0').toString();
@@ -40,7 +44,10 @@ class AddHoursScreenController extends GetxController{
         if(companyName.value.length > 25){
           companyName.value = "${companyName.value.substring(0,24)}...";
         }
-      }
+      } else if (response.statusCode == 401)
+        {
+          Get.offAll(() => const LoginScreen());
+        }
 
     } catch (e) {
       print('Error loading service: $e');

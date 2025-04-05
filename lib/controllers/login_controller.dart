@@ -29,7 +29,7 @@ class LoginController extends GetxController{
     await apiServices.login(userName.value.text,password.value.text).then((value) {
       final Map<String,dynamic> response=value.data as Map<String,dynamic>;
       if(value.statusCode==200){
-        showSuccess('Login Successfully.');
+        showSuccess('Login Success...');
         isLoading(false);
 
         prefs.setString('token', response["token"]);

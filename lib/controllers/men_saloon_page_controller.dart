@@ -4,6 +4,7 @@ import 'package:hair_saloon/halper/methods.dart';
 import 'package:hair_saloon/home.dart';
 import 'package:hair_saloon/models/selected_item_model.dart';
 
+import '../auth/login_screen.dart';
 import '../models/category_model.dart';
 import '../services/api_services.dart';
 import 'add_hours_screen_controller.dart';
@@ -107,6 +108,7 @@ class MenSaloonPageController extends GetxController {
        print(value.data);
        saveLoading(false);
      }else{
+       Get.offAll(() => const LoginScreen());
        showError(response['errorMessage']);
        saveLoading(false);
      }
