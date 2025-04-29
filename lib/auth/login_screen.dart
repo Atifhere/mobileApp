@@ -28,7 +28,7 @@ class LoginScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Image.asset('images/login_img.png', width: 300.w),
+                      Image.asset('images/logo3.png', width: 300.w),
                       const _TitleWidget(),
                       SizedBox(height: 30.h),
                       TextFieldWidget(hintText: 'User Name',controller: controller.userName.value,),
