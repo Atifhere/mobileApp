@@ -84,7 +84,7 @@ class MyWorkScreenController extends GetxController {
   }
   bool isMonthGreater(DateTime newDate) {
     DateTime currentDate = DateTime.now();
-    return (newDate.month > currentDate.month && newDate.year > currentDate.year);
+    return (newDate.month < currentDate.month && newDate.year > currentDate.year) || (newDate.month > currentDate.month && newDate.year == currentDate.year);
   }
 
   void updateSelectedDate(DateTime newDate) {
